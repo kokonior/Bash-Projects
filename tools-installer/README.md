@@ -1,5 +1,4 @@
-#priv8-installer
-TOOLS LADANG INSTALLER PRIV8
+#TOOLS INSTALLER PRIV8
 
 How To Install : 
 Bash / cmd / Vscode Terminal / etc
