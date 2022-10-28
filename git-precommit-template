@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# echo "Running lint check..."
+
+ CHANGED_FILES="$(git --no-pager diff --name-status --no-color --cached | awk '$1 != "D" && $NF ~ /\.kt?$/ { print $NF }')"
+
+ if [ -z "$CHANGED_FILES" ]; then
+     echo "No Kotlin staged files."
+     exit 0
+ fi;
+
+ echo "Running ktlint over these files:"
+ echo "$CHANGED_FILES"
+
+ ./gradlew ktlintCheck -PinternalKtlintGitFilter="$CHANGED_FILES"
+
+ echo "$CHANGED_FILES"
+gradle_command_exit_code=$?
+
+echo "Ktlint checking is complete"
+
+if [ $gradle_command_exit_code -eq 0 ]
+then
+if [ -s $diff ]; then
+    git apply --ignore-whitespace $diff
+  fi
+  rm $diff
+  unset diff
+  exit 0
+else
+  exit 1
+fi
+
+# return 1 exit code if running checks fails
+
